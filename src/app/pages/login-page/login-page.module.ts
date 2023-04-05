@@ -6,6 +6,6 @@ import { UserModule } from 'src/app/features/user/user.module';
 @NgModule({
   declarations: [LoginPageComponent],
   imports: [CommonModule, UserModule],
-  exports: [LoginPageComponent],
+  exports: [],
 })
 export class LoginPageModule {}
