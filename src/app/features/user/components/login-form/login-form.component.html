@@ -1,0 +1,24 @@
+<mat-card class="login-form">
+    <mat-card-header class="login-form__header">
+        <mat-card-title class="login-form__header__title">Welcome to Enrollment System!</mat-card-title>
+        <mat-card-subtitle class="login-form__header__subtitle">Login to continue!</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="login-form__content">
+        <form class="login-form__content__form" [formGroup]="loginForm">
+            <mat-form-field class="login-form__content__form__studentID" appearance="outline">
+              <mat-label>Enter Student ID</mat-label>
+              <input matInput placeholder="Ex. U01234567" formControlName="studentID">
+            </mat-form-field>
+
+            <mat-form-field class="login-form__content__form__password" appearance="outline">
+                <mat-label>Enter Password</mat-label>
+                <input matInput type="password" placeholder="Password"formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+          </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions class="login-form__action">
+        <button mat-raised-button color="primary" (click)="onLogin()" [disabled]="loginForm.pristine">Login</button>
+    </mat-card-actions>
+</mat-card>
