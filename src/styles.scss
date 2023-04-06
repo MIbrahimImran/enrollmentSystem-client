@@ -1,4 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~ag-grid-community/styles//ag-grid.css";
+@import "~ag-grid-community/styles//ag-theme-alpine.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+ag-grid-angular {
+    padding:  0 0 0;
+}
+
+.ag-theme-alpine {
+    --ag-header-foreground-color : #003049;
+    --ag-font-family: 'Roboto', sans-serif;
+}
