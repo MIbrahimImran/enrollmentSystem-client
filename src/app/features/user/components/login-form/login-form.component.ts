@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserLoginI } from 'src/app/features/user/interface/user-login.interface';
 import { UserService } from '../../services/user.service';

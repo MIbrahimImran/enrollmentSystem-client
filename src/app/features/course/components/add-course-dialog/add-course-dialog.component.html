@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Add Course</h2>
+<mat-dialog-content class="dialog">
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="dialog__form">
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Course ID" formControlName="courseID">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Course Title" formControlName="title">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Instructor" formControlName="instructor">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Credits" formControlName="credits">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button cdkFocusInitial color="primary" (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

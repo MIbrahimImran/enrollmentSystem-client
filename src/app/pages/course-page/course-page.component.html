@@ -1,10 +1,28 @@
 <app-navbar></app-navbar>
 <app-side-navbar>
+    <div class="course-intraction">
+        <button *ngIf="selectedRowCount > 0" 
+                mat-raised-button 
+                class="course-intraction__delete" 
+                color="warn"
+                (click)="openDeleteCourseDialog()">
+                Delete Selected Courses ({{ selectedRowCount }})
+        </button>
+        <button mat-raised-button 
+                class="course-intraction__add" 
+                color="primary"
+                (click)="openAddCourseDialog()">
+                Add Course
+        </button>
+    </div>
     <ag-grid-angular
         style="width: 100%; height: 100%;"
         class="ag-theme-alpine"
         [rowData]="rowData"
         [columnDefs]="columnDefs"
-        [defaultColDef]="defaultColDef">
+        [rowSelection]="'multiple'"
+        [defaultColDef]="defaultColDef"
+        (gridReady)="onGridReady($event)"
+        (rowSelected)="updateSelectedRowCount()">
     </ag-grid-angular>
 </app-side-navbar>
