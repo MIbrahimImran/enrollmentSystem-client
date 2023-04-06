@@ -1,15 +1,15 @@
 <app-navbar></app-navbar>
 <app-side-navbar>
-    <div class="course-intraction">
+    <div class="course">
         <button *ngIf="selectedRowCount > 0" 
                 mat-raised-button 
-                class="course-intraction__delete" 
+                class="course__delete" 
                 color="warn"
                 (click)="openDeleteCourseDialog()">
                 Delete Selected Courses ({{ selectedRowCount }})
         </button>
         <button mat-raised-button 
-                class="course-intraction__add" 
+                class="course__add" 
                 color="primary"
                 (click)="openAddCourseDialog()">
                 Add Course
