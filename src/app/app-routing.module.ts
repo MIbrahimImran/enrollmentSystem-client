@@ -9,7 +9,7 @@ const routes: Routes = [
     component: LoginPageComponent,
   },
   {
-    path: 'user-dashboard',
+    path: 'dashboard',
     component: UserDashboardPageComponent,
   },
 ];
