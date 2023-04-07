@@ -1,44 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ColDef, GridApi, RowSelectedEvent } from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-community';
 import { AddCourseDialogComponent } from 'src/app/features/course/components/add-course-dialog/add-course-dialog.component';
 import { CourseT } from 'src/app/features/course/interfaces/course.interface';
+import { CoursePageService } from './course-page.service';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-course-page',
   templateUrl: './course-page.component.html',
   styleUrls: ['./course-page.component.scss'],
 })
-export class CoursePageComponent {
+export class CoursePageComponent implements OnDestroy {
   public selectedRowCount = 0;
 
   private gridApi: GridApi | undefined;
 
-  public rowData: CourseT[];
+  public rowData: CourseT[] = [];
   public columnDefs: ColDef[] = this.getColumnDefs();
   public defaultColDef: ColDef = this.getDefaultColDef();
 
-  constructor(public dialog: MatDialog) {
-    this.rowData = [
-      {
-        courseID: 'CSC 436',
-        title: 'Software Engineering',
-        instructor: 'Dr. Kiper',
-        credits: 3,
-      },
-      {
-        courseID: 'CSC 437',
-        title: 'Software Testing',
-        instructor: 'Dr. Kiper',
-        credits: 3,
-      },
-      {
-        courseID: 'CSC 438',
-        title: 'Software Project Management',
-        instructor: 'Dr. Kiper',
-        credits: 3,
-      },
-    ];
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    public dialog: MatDialog,
+    private coursePageService: CoursePageService
+  ) {
+    this.coursePageService
+      .getAllCourses()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((courses) => {
+        this.rowData = courses;
+      });
   }
 
   onGridReady(params: any): void {
@@ -60,19 +53,34 @@ export class CoursePageComponent {
 
   openAddCourseDialog(): void {
     const dialogRef = this.dialog.open(AddCourseDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      this.rowData.push(result);
-      this.gridApi?.setRowData(this.rowData);
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((course) => this.coursePageService.createCourse(course))
+      )
+      .subscribe((course) => {
+        this.rowData = [...this.rowData, course];
+        this.gridApi?.setRowData(this.rowData);
+      });
   }
 
-  openDeleteCourseDialog(): void {
+  deleteCourses(): void {
     const selectedNodes = this.gridApi?.getSelectedNodes();
     if (selectedNodes) {
       const selectedData = selectedNodes.map((node) => node.data);
-      this.rowData = this.rowData.filter(
-        (course) => !selectedData.includes(course)
-      );
+
+      selectedData.forEach((course) => {
+        this.coursePageService
+          .deleteCourse(course.courseID)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => {
+            this.rowData = this.rowData.filter(
+              (courseItem) => courseItem.courseID !== course.courseID
+            );
+          });
+      });
+
       this.gridApi?.setRowData(this.rowData);
       this.updateSelectedRowCount();
     }
@@ -82,5 +90,10 @@ export class CoursePageComponent {
     if (this.gridApi) {
       this.selectedRowCount = this.gridApi.getSelectedNodes().length;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

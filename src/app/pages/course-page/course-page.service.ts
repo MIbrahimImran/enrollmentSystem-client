@@ -1,0 +1,37 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CourseT } from 'src/app/features/course/interfaces/course.interface';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CoursePageService {
+  private apiUrl = 'http://localhost:3000/courses';
+
+  constructor(private http: HttpClient) {}
+
+  getAllCourses(): Observable<CourseT[]> {
+    return this.http.get<CourseT[]>(`${this.apiUrl}`);
+  }
+
+  getCourseByID(courseID: string): Observable<CourseT> {
+    return this.http.get<CourseT>(`${this.apiUrl}/${courseID}`);
+  }
+
+  getCoursesByInstructor(instructor: string): Observable<CourseT[]> {
+    return this.http.get<CourseT[]>(`${this.apiUrl}/instructor/${instructor}`);
+  }
+
+  getCoursesByTitle(title: string): Observable<CourseT[]> {
+    return this.http.get<CourseT[]>(`${this.apiUrl}/title/${title}`);
+  }
+
+  createCourse(course: CourseT): Observable<CourseT> {
+    return this.http.post<CourseT>(`${this.apiUrl}`, course);
+  }
+
+  deleteCourse(courseID: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${courseID}`);
+  }
+}
