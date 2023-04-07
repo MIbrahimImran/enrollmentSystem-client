@@ -7,6 +7,7 @@ import { AddCourseDialogComponent } from './components/add-course-dialog/add-cou
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [AddCourseDialogComponent],
@@ -18,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDividerModule,
   ],
   exports: [],
 })

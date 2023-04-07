@@ -1,17 +1,34 @@
 <h2 mat-dialog-title>Add Course</h2>
+<mat-divider></mat-divider>
 <mat-dialog-content class="dialog">
     <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="dialog__form">
         <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Course ID</mat-label>
             <input matInput placeholder="Course ID" formControlName="courseID">
+            <mat-error *ngIf="courseForm.controls['courseID'].hasError('required')">
+                Course ID is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Course Title</mat-label>
             <input matInput placeholder="Course Title" formControlName="title">
+            <mat-error *ngIf="courseForm.controls['title'].hasError('required')">
+                Course Title is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Instructor</mat-label>
             <input matInput placeholder="Instructor" formControlName="instructor">
+            <mat-error *ngIf="courseForm.controls['instructor'].hasError('required')">
+                Instructor is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Credits</mat-label>
             <input matInput placeholder="Credits" formControlName="credits">
+            <mat-error *ngIf="courseForm.controls['credits'].hasError('required')">
+                Credits is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
     </form>
 </mat-dialog-content>

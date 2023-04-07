@@ -1,20 +1,20 @@
 <h2 mat-dialog-title>Add Course</h2>
+<mat-divider></mat-divider>
 <mat-dialog-content class="dialog">
     <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="dialog__form">
         <mat-form-field appearance="outline" class="dialog__form__field">
-            <input matInput placeholder="Student ID" formControlName="studentID">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Student Name</mat-label>
             <input matInput placeholder="Course Title" formControlName="studentName">
+            <mat-error *ngIf="studentForm.controls['studentName'].hasError('required')">
+                Student Name is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="dialog__form__field">
-            <input matInput placeholder="Email" formControlName="email">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Major</mat-label>
             <input matInput placeholder="Major" formControlName="major">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="dialog__form__field">
-            <input matInput placeholder="Password" formControlName="password">
+            <mat-error *ngIf="studentForm.controls['major'].hasError('required')">
+                Major is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
     </form>
 </mat-dialog-content>
