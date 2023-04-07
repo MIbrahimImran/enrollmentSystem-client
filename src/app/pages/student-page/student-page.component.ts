@@ -14,6 +14,8 @@ import { Subject, switchMap, takeUntil } from 'rxjs';
 export class StudentPageComponent implements OnDestroy {
   public selectedRowCount = 0;
 
+  public filters = ['Student ID', 'Student Name', 'Major'];
+
   private gridApi: GridApi | undefined;
   public rowData: StudentT[] = [];
   public columnDefs: ColDef[] = this.getColumnDefs();
@@ -88,6 +90,10 @@ export class StudentPageComponent implements OnDestroy {
     if (this.gridApi) {
       this.selectedRowCount = this.gridApi.getSelectedNodes().length;
     }
+  }
+
+  onSearchQuery(query: any): void {
+    console.log(query);
   }
 
   ngOnDestroy(): void {

@@ -1,9 +1,12 @@
 .course {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-items: end;
     margin: 12px;
 
-    &__delete {
-        margin-right: 8px;
+    &__button {
+        &__delete {
+            margin-right: 8px;
+        }
     }
 }

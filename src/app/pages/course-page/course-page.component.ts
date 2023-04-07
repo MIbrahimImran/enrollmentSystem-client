@@ -14,6 +14,8 @@ import { Subject, switchMap, takeUntil } from 'rxjs';
 export class CoursePageComponent implements OnDestroy {
   public selectedRowCount = 0;
 
+  public filters = ['Instructor', 'Course ID', 'Course Title'];
+
   private gridApi: GridApi | undefined;
 
   public rowData: CourseT[] = [];
@@ -90,6 +92,10 @@ export class CoursePageComponent implements OnDestroy {
     if (this.gridApi) {
       this.selectedRowCount = this.gridApi.getSelectedNodes().length;
     }
+  }
+
+  onSearchQuery(query: any): void {
+    console.log(query);
   }
 
   ngOnDestroy(): void {
