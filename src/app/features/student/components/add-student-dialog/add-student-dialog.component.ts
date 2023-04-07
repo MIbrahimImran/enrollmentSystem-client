@@ -18,6 +18,7 @@ export class AddStudentDialogComponent {
     this.studentForm = this.formBuilder.group({
       studentName: ['', Validators.required],
       major: ['', Validators.required],
+      role: ['', Validators.required],
     });
   }
 

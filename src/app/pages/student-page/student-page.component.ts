@@ -50,7 +50,7 @@ export class StudentPageComponent implements OnDestroy {
   }
 
   getDefaultColDef(): ColDef {
-    return { sortable: true, resizable: true };
+    return { sortable: true, resizable: true, editable: true };
   }
 
   openAddStudentDialog(): void {

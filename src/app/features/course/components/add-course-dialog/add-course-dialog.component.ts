@@ -19,7 +19,7 @@ export class AddCourseDialogComponent {
       courseID: ['', Validators.required],
       title: ['', Validators.required],
       instructor: ['', Validators.required],
-      credits: ['', Validators.required],
+      credits: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
     });
   }
 

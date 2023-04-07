@@ -45,8 +45,15 @@ export class EnrollmentPageComponent implements OnDestroy {
       { field: 'enrollmentID', headerName: 'Enrollment ID', width: 150 },
       { field: 'studentID', headerName: 'Student ID', width: 150 },
       { field: 'studentName', headerName: 'Student Name' },
+      { field: 'studentEmail', headerName: 'Student Email', width: 300 },
       { field: 'courseID', headerName: 'Course ID', width: 150 },
-      { field: 'title', headerName: 'Course Title', width: 300 },
+      { field: 'courseTitle', headerName: 'Course Title', width: 300 },
+      {
+        field: 'courseInstructor',
+        headerName: 'Course Instructor',
+        width: 300,
+      },
+      { field: 'courseCredit', headerName: 'Course Credit', width: 150 },
     ];
   }
 

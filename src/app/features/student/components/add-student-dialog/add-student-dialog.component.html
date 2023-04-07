@@ -10,12 +10,29 @@
             </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="dialog__form__field">
-            <mat-label>Major</mat-label>
-            <input matInput placeholder="Major" formControlName="major">
-            <mat-error *ngIf="studentForm.controls['major'].hasError('required')">
-                Major is <strong>required</strong>
+          <mat-label>Major</mat-label>
+          <mat-select formControlName="major">
+            <mat-option value="Physics">Physics</mat-option>
+            <mat-option value="Math">Math</mat-option>
+            <mat-option value="Computer Science">Computer Science</mat-option>
+            <mat-option value="Chemistry">Chemistry</mat-option>
+          </mat-select>
+          <mat-error *ngIf="studentForm.controls['major'].hasError('required')">
+            Major is <strong>required</strong>
+          </mat-error>
+      </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role">
+              <mat-option value="student">Student</mat-option>
+              <mat-option value="advisor">Advisor</mat-option>
+              <mat-option value="admin">Admin</mat-option>
+            </mat-select>
+            <mat-error *ngIf="studentForm.controls['role'].hasError('required')">
+              Role is <strong>required</strong>
             </mat-error>
         </mat-form-field>
+          
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
