@@ -1,4 +1,6 @@
 <app-navbar></app-navbar>
 <app-side-navbar>
-    <p>Dashboard</p>
+    <ng-container *ngFor="let stats of statistics" >
+        <app-stats-card color="primary" [title]="stats.title" [value]="stats.value"></app-stats-card>
+    </ng-container>
 </app-side-navbar>
