@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ColDef, GridApi } from 'ag-grid-community';
 import { AddStudentDialogComponent } from 'src/app/features/student/components/add-student-dialog/add-student-dialog.component';
+import { StudentT } from 'src/app/features/student/interfaces/student.interface';
 
 @Component({
   selector: 'app-student-page',
@@ -12,7 +13,7 @@ export class StudentPageComponent {
   public selectedRowCount = 0;
 
   private gridApi: GridApi | undefined;
-  public rowData;
+  public rowData: StudentT[];
   public columnDefs: ColDef[] = this.getColumnDefs();
   public defaultColDef: ColDef = this.getDefaultColDef();
 
@@ -53,7 +54,7 @@ export class StudentPageComponent {
     return { sortable: true, resizable: true };
   }
 
-  openAddCourseDialog(): void {
+  openAddStudentDialog(): void {
     const dialogRef = this.dialog.open(AddStudentDialogComponent);
     dialogRef.afterClosed().subscribe((result) => {
       this.rowData.push(result);
@@ -61,12 +62,12 @@ export class StudentPageComponent {
     });
   }
 
-  openDeleteCourseDialog(): void {
+  openDeleteStudentDialog(): void {
     const selectedNodes = this.gridApi?.getSelectedNodes();
     if (selectedNodes) {
       const selectedData = selectedNodes.map((node) => node.data);
       this.rowData = this.rowData.filter(
-        (course) => !selectedData.includes(course)
+        (Student) => !selectedData.includes(Student)
       );
       this.gridApi?.setRowData(this.rowData);
       this.updateSelectedRowCount();
