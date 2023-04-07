@@ -1,0 +1,11 @@
+.search-filter {
+    display: flex;
+    &__filter {
+        margin-left: 16px;
+    }
+
+    &__search {
+        margin-left: 16px;
+        height: 56px;
+    }
+}
