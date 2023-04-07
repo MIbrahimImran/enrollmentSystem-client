@@ -1,26 +1,30 @@
 <mat-drawer-container class="sidenav">
     <mat-drawer mode="side" opened class="sidenav__drawer">
+        <div class="sidenav__drawer__logo">
+                <span class="sidenav__drawer__logo">Enrollment System</span>
+        </div>
+        <mat-divider></mat-divider>
         <button (click)="navigateToDashboard()" 
                 class="sidenav__drawer__dashboard" 
                 mat-button>
                 <mat-icon>dashboard</mat-icon>
                 Dashboard
         </button>
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider> -->
         <button (click)="navigateToCourses()" 
                 class="sidenav__drawer__courses" 
                 mat-button>
                 <mat-icon>book</mat-icon>
                 Courses
         </button>
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider> -->
         <button (click)="navigateToStudents()" 
                 class="sidenav__drawer__enrollment" 
                 mat-button>
                 <mat-icon>people</mat-icon>
                 Students
         </button>
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider> -->
         <button (click)="navigateToEnrollment()" 
                 class="sidenav__drawer__enrollment" 
                 mat-button>
