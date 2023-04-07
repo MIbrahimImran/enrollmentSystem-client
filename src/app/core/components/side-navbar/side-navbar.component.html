@@ -1,9 +1,32 @@
 <mat-drawer-container class="sidenav">
     <mat-drawer mode="side" opened class="sidenav__drawer">
-        <button (click)="navigateToDashboard()" class="sidenav__drawer__dashboard" mat-button>Dashboard</button>
-        <button (click)="navigateToCourses()" class="sidenav__drawer__courses" mat-button>Courses</button>
-        <button (click)="navigateToStudents()" class="sidenav__drawer__enrollment" mat-button>Students</button>
-        <button (click)="navigateToEnrollment()" class="sidenav__drawer__enrollment" mat-button>Enrollment</button>
+        <button (click)="navigateToDashboard()" 
+                class="sidenav__drawer__dashboard" 
+                mat-button>
+                <mat-icon>dashboard</mat-icon>
+                Dashboard
+        </button>
+        <mat-divider></mat-divider>
+        <button (click)="navigateToCourses()" 
+                class="sidenav__drawer__courses" 
+                mat-button>
+                <mat-icon>book</mat-icon>
+                Courses
+        </button>
+        <mat-divider></mat-divider>
+        <button (click)="navigateToStudents()" 
+                class="sidenav__drawer__enrollment" 
+                mat-button>
+                <mat-icon>people</mat-icon>
+                Students
+        </button>
+        <mat-divider></mat-divider>
+        <button (click)="navigateToEnrollment()" 
+                class="sidenav__drawer__enrollment" 
+                mat-button>
+                <mat-icon>pie_chart</mat-icon>
+                Enrollment
+        </button>
     </mat-drawer>
     <mat-drawer-content class="sidenav__content">
         <ng-content></ng-content>

@@ -1,0 +1,17 @@
+.card {
+    width: 160px;
+    height: 120px;
+
+    margin: 2rem;
+
+    &__header {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+    }
+}
