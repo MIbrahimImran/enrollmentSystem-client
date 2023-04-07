@@ -14,7 +14,7 @@ import { Subject, switchMap, takeUntil } from 'rxjs';
 export class EnrollmentPageComponent implements OnDestroy {
   public selectedRowCount = 0;
 
-  public filters = ['Student ID', 'Course ID', 'Course Title'];
+  public filters = ['Student Name', 'Enrollment ID', 'Course ID'];
 
   private gridApi: GridApi | undefined;
 
@@ -66,7 +66,6 @@ export class EnrollmentPageComponent implements OnDestroy {
       )
       .subscribe((enrollment) => {
         this.rowData = [...this.rowData, enrollment];
-        this.gridApi?.setRowData(this.rowData);
       });
   }
 
@@ -84,7 +83,6 @@ export class EnrollmentPageComponent implements OnDestroy {
             );
           });
       });
-      this.gridApi?.setRowData(this.rowData);
       this.updateSelectedRowCount();
     }
   }
@@ -96,7 +94,59 @@ export class EnrollmentPageComponent implements OnDestroy {
   }
 
   onSearchQuery(query: any): void {
-    console.log(query);
+    if (query) {
+      console.log(query);
+      switch (query.filter) {
+        case 'Student Name':
+          this.getEnrollmentsByStudentName(query.input);
+          break;
+        case 'Enrollment ID':
+          this.getEnrollmentByID(query.value);
+          break;
+        case 'Course ID':
+          this.getEnrollmentsByCourseID(query.value);
+          break;
+        default:
+          this.getAllEnrollments();
+          break;
+      }
+    }
+  }
+
+  getAllEnrollments(): void {
+    this.enrollmentPageService
+      .getAllEnrollments()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((enrollments) => {
+        this.rowData = enrollments;
+      });
+  }
+
+  getEnrollmentByID(enrollmentID: string): void {
+    this.enrollmentPageService
+      .getEnrollmentByID(enrollmentID)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((enrollment) => {
+        this.rowData = [enrollment];
+      });
+  }
+
+  getEnrollmentsByStudentName(studentName: string): void {
+    this.enrollmentPageService
+      .getEnrollmentsByStudentName(studentName)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((enrollments) => {
+        this.rowData = enrollments;
+      });
+  }
+
+  getEnrollmentsByCourseID(courseID: string): void {
+    this.enrollmentPageService
+      .getEnrollmentsByCourseID(courseID)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((enrollments) => {
+        this.rowData = enrollments;
+      });
   }
 
   ngOnDestroy(): void {

@@ -28,12 +28,7 @@ export class CoursePageComponent implements OnDestroy {
     public dialog: MatDialog,
     private coursePageService: CoursePageService
   ) {
-    this.coursePageService
-      .getAllCourses()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((courses) => {
-        this.rowData = courses;
-      });
+    this.getAllCourses();
   }
 
   onGridReady(params: any): void {
@@ -63,7 +58,6 @@ export class CoursePageComponent implements OnDestroy {
       )
       .subscribe((course) => {
         this.rowData = [...this.rowData, course];
-        this.gridApi?.setRowData(this.rowData);
       });
   }
 
@@ -83,7 +77,6 @@ export class CoursePageComponent implements OnDestroy {
           });
       });
 
-      this.gridApi?.setRowData(this.rowData);
       this.updateSelectedRowCount();
     }
   }
@@ -95,7 +88,59 @@ export class CoursePageComponent implements OnDestroy {
   }
 
   onSearchQuery(query: any): void {
-    console.log(query);
+    if (query) {
+      console.log(query);
+      switch (query.filter) {
+        case 'Instructor':
+          this.getCoursesByInstructor(query.input);
+          break;
+        case 'Course ID':
+          this.getCoursesByID(query.input);
+          break;
+        case 'Course Title':
+          this.getCoursesByTitle(query.input);
+          break;
+        default:
+          this.getAllCourses();
+          break;
+      }
+    }
+  }
+
+  getAllCourses(): void {
+    this.coursePageService
+      .getAllCourses()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((courses) => {
+        this.rowData = courses;
+      });
+  }
+
+  getCoursesByTitle(title: string): void {
+    this.coursePageService
+      .getCoursesByTitle(title)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((courses) => {
+        this.rowData = courses;
+      });
+  }
+
+  getCoursesByInstructor(instructor: string): void {
+    this.coursePageService
+      .getCoursesByInstructor(instructor)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((courses) => {
+        this.rowData = courses;
+      });
+  }
+
+  getCoursesByID(courseID: string): void {
+    this.coursePageService
+      .getCourseByID(courseID)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((course) => {
+        this.rowData = [course];
+      });
   }
 
   ngOnDestroy(): void {

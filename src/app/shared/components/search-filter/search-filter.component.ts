@@ -11,9 +11,10 @@ export class SearchFilterComponent implements OnInit {
   @Input() filters: string[] = [];
 
   inputControl = new FormControl('');
-  filterControl = new FormControl('');
+  filterControl = new FormControl('All');
 
   ngOnInit() {
+    this.inputControl.disable();
     this.filterControl.valueChanges.subscribe((selectedFilter) => {
       if (selectedFilter === 'All') {
         this.inputControl.disable();
