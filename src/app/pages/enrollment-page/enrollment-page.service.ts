@@ -19,7 +19,7 @@ export class EnrollmentPageService {
     return this.http.get<EnrollmentT>(`${this.apiUrl}/${enrollmentID}`);
   }
 
-  getEnrollmentsByStudent(studentName: string): Observable<EnrollmentT[]> {
+  getEnrollmentsByStudentName(studentName: string): Observable<EnrollmentT[]> {
     return this.http.get<EnrollmentT[]>(
       `${this.apiUrl}/student/${studentName}`
     );

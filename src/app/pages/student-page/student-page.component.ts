@@ -14,7 +14,7 @@ import { Subject, switchMap, takeUntil } from 'rxjs';
 export class StudentPageComponent implements OnDestroy {
   public selectedRowCount = 0;
 
-  public filters = ['Student ID', 'Student Name', 'Major'];
+  public filters = ['Student ID', 'Student Name'];
 
   private gridApi: GridApi | undefined;
   public rowData: StudentT[] = [];
@@ -63,7 +63,6 @@ export class StudentPageComponent implements OnDestroy {
       )
       .subscribe((student) => {
         this.rowData = [...this.rowData, student];
-        this.gridApi?.setRowData(this.rowData);
       });
   }
 
@@ -81,7 +80,6 @@ export class StudentPageComponent implements OnDestroy {
             );
           });
       });
-      this.gridApi?.setRowData(this.rowData);
       this.updateSelectedRowCount();
     }
   }
@@ -93,7 +91,47 @@ export class StudentPageComponent implements OnDestroy {
   }
 
   onSearchQuery(query: any): void {
-    console.log(query);
+    if (query) {
+      console.log(query);
+      switch (query.filter) {
+        case 'Student ID':
+          this.getStudentByID(query.input);
+          break;
+        case 'Student Name':
+          this.getStudentsByName(query.input);
+          break;
+        default:
+          this.getAllStudents();
+          break;
+      }
+    }
+  }
+
+  getAllStudents(): void {
+    this.studentPageService
+      .getAllStudents()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((students) => {
+        this.rowData = students;
+      });
+  }
+
+  getStudentByID(studentID: string): void {
+    this.studentPageService
+      .getStudentByID(studentID)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((student) => {
+        this.rowData = [student];
+      });
+  }
+
+  getStudentsByName(studentName: string): void {
+    this.studentPageService
+      .getStudentsByName(studentName)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((students) => {
+        this.rowData = students;
+      });
   }
 
   ngOnDestroy(): void {
