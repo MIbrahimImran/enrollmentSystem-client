@@ -1,19 +1,27 @@
 <app-navbar></app-navbar>
 <app-side-navbar>
     <div class="student">
-        <button *ngIf="selectedRowCount > 0" 
-                mat-raised-button 
-                class="student__delete" 
-                color="warn"
-                (click)="deleteStudent()">
-                Delete Selected Students ({{ selectedRowCount }})
-        </button>
-        <button mat-raised-button 
-                class="student__add" 
-                color="primary"
-                (click)="openAddStudentDialog()">
-                Add Student
-        </button>
+        <app-search-filter [filters]="filters" c
+                            lass="course__filter"
+                            (query)="onSearchQuery($event)">
+        </app-search-filter>
+        <div class="student__button">
+            <button *ngIf="selectedRowCount > 0" 
+                    mat-raised-button 
+                    class="student__button__delete" 
+                    color="warn"
+                    (click)="deleteStudent()">
+                    <mat-icon>delete</mat-icon>
+                    Delete Selected Students ({{ selectedRowCount }})
+            </button>
+            <button mat-raised-button 
+                    class="student__button__add" 
+                    color="primary"
+                    (click)="openAddStudentDialog()">
+                    <mat-icon>add</mat-icon>
+                    Add Student
+            </button>
+        </div>
     </div>
     <ag-grid-angular
         style="width: 100%; height: 100%;"
