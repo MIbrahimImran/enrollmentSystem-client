@@ -1,47 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ColDef, GridApi } from 'ag-grid-community';
 import { AddEnrollmentDialogComponent } from 'src/app/features/enrollment/components/add-enrollment-dialog/add-enrollment-dialog.component';
 import { EnrollmentT } from 'src/app/features/enrollment/interfaces/enrollment.interface';
+import { EnrollmentPageService } from './enrollment-page.service';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-enrollment-page',
   templateUrl: './enrollment-page.component.html',
   styleUrls: ['./enrollment-page.component.scss'],
 })
-export class EnrollmentPageComponent {
+export class EnrollmentPageComponent implements OnDestroy {
   public selectedRowCount = 0;
 
   private gridApi: GridApi | undefined;
 
-  public rowData: EnrollmentT[];
+  public rowData: EnrollmentT[] = [];
   public columnDefs: ColDef[] = this.getColumnDefs();
   public defaultColDef: ColDef = this.getDefaultColDef();
 
-  constructor(public dialog: MatDialog) {
-    this.rowData = [
-      {
-        studentID: 'U02463323',
-        studentName: 'John Doe',
-        courseID: 'CSC 436',
-        title: 'Software Engineering',
-        enrollmentID: 1,
-      },
-      {
-        studentID: 'U02463323',
-        studentName: 'Jane Doe',
-        courseID: 'CSC 437',
-        title: 'Software Testing',
-        enrollmentID: 2,
-      },
-      {
-        studentID: 'U02463323',
-        studentName: 'John Smith',
-        courseID: 'CSC 438',
-        title: 'Software Project Management',
-        enrollmentID: 3,
-      },
-    ];
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    public dialog: MatDialog,
+    private enrollmentPageService: EnrollmentPageService
+  ) {
+    this.enrollmentPageService
+      .getAllEnrollments()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((enrollments) => {
+        this.rowData = enrollments;
+      });
   }
 
   onGridReady(params: any): void {
@@ -64,19 +54,34 @@ export class EnrollmentPageComponent {
 
   openAddEnrollmentDialog(): void {
     const dialogRef = this.dialog.open(AddEnrollmentDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      this.rowData.push(result);
-      this.gridApi?.setRowData(this.rowData);
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((enrollment) =>
+          this.enrollmentPageService.createEnrollment(enrollment)
+        )
+      )
+      .subscribe((enrollment) => {
+        this.rowData = [...this.rowData, enrollment];
+        this.gridApi?.setRowData(this.rowData);
+      });
   }
 
-  openDeleteEnrollmentDialog(): void {
+  deleteEnrollment(): void {
     const selectedNodes = this.gridApi?.getSelectedNodes();
     if (selectedNodes) {
       const selectedData = selectedNodes.map((node) => node.data);
-      this.rowData = this.rowData.filter(
-        (enrollment) => !selectedData.includes(enrollment)
-      );
+      selectedData.forEach((enrollment) => {
+        this.enrollmentPageService
+          .deleteEnrollment(enrollment.enrollmentID)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => {
+            this.rowData = this.rowData.filter(
+              (e) => e.enrollmentID !== enrollment.enrollmentID
+            );
+          });
+      });
       this.gridApi?.setRowData(this.rowData);
       this.updateSelectedRowCount();
     }
@@ -86,5 +91,10 @@ export class EnrollmentPageComponent {
     if (this.gridApi) {
       this.selectedRowCount = this.gridApi.getSelectedNodes().length;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
