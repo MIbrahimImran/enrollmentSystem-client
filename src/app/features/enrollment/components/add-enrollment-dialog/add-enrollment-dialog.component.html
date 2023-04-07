@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Add Enrollment</h2>
+<mat-dialog-content class="dialog">
+    <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()" class="dialog__form">
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Student ID" formControlName="studentID">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Student Name" formControlName="studentName">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Course ID" formControlName="courseID">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Title " formControlName="title">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="dialog__form__field">
+            <input matInput placeholder="Enrollment ID" formControlName="enrollmentID">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button cdkFocusInitial color="primary" (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

@@ -1,0 +1,9 @@
+.course {
+    display: flex;
+    justify-content: end;
+    margin: 12px;
+
+    &__delete {
+        margin-right: 8px;
+    }
+}
