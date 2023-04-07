@@ -16,10 +16,10 @@ export class AddCourseDialogComponent {
     private formBuilder: FormBuilder
   ) {
     this.courseForm = this.formBuilder.group({
-      courseID: '',
-      title: '',
-      instructor: '',
-      credits: '',
+      courseID: ['', Validators.required],
+      title: ['', Validators.required],
+      instructor: ['', Validators.required],
+      credits: ['', Validators.required],
     });
   }
 

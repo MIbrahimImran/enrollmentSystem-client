@@ -4,7 +4,7 @@ import { ColDef, GridApi } from 'ag-grid-community';
 import { AddCourseDialogComponent } from 'src/app/features/course/components/add-course-dialog/add-course-dialog.component';
 import { CourseT } from 'src/app/features/course/interfaces/course.interface';
 import { CoursePageService } from './course-page.service';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-course-page',
@@ -54,6 +54,7 @@ export class CoursePageComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         takeUntil(this.destroy$),
+        filter((course) => !!course),
         switchMap((course) => this.coursePageService.createCourse(course))
       )
       .subscribe((course) => {

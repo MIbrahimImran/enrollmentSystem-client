@@ -4,7 +4,7 @@ import { ColDef, GridApi } from 'ag-grid-community';
 import { AddEnrollmentDialogComponent } from 'src/app/features/enrollment/components/add-enrollment-dialog/add-enrollment-dialog.component';
 import { EnrollmentT } from 'src/app/features/enrollment/interfaces/enrollment.interface';
 import { EnrollmentPageService } from './enrollment-page.service';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-enrollment-page',
@@ -42,11 +42,11 @@ export class EnrollmentPageComponent implements OnDestroy {
 
   getColumnDefs(): ColDef[] {
     return [
-      { field: 'courseID', headerName: 'Course ID', width: 150 },
-      { field: 'title', headerName: 'Course Title', width: 300 },
+      { field: 'enrollmentID', headerName: 'Enrollment ID', width: 150 },
       { field: 'studentID', headerName: 'Student ID', width: 150 },
       { field: 'studentName', headerName: 'Student Name' },
-      { field: 'enrollmentID', headerName: 'Enrollment ID' },
+      { field: 'courseID', headerName: 'Course ID', width: 150 },
+      { field: 'title', headerName: 'Course Title', width: 300 },
     ];
   }
 
@@ -60,6 +60,7 @@ export class EnrollmentPageComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         takeUntil(this.destroy$),
+        filter((enrollment) => !!enrollment),
         switchMap((enrollment) =>
           this.enrollmentPageService.createEnrollment(enrollment)
         )

@@ -4,7 +4,7 @@ import { ColDef, GridApi } from 'ag-grid-community';
 import { AddStudentDialogComponent } from 'src/app/features/student/components/add-student-dialog/add-student-dialog.component';
 import { StudentT } from 'src/app/features/student/interfaces/student.interface';
 import { StudentPageService } from './student-page.service';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-student-page',
@@ -59,6 +59,7 @@ export class StudentPageComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         takeUntil(this.destroy$),
+        filter((student) => !!student),
         switchMap((student) => this.studentPageService.createStudent(student))
       )
       .subscribe((student) => {
