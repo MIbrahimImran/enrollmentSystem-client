@@ -3,7 +3,7 @@
     <mat-grid-list cols="3" rowHeight="1:1" gutterSize="16px">
       <ng-container *ngFor="let stats of statistics">
         <mat-grid-tile>
-          <app-stats-card [color]="stats.color" [title]="stats.title" [value]="stats.count"></app-stats-card>
+          <app-stats-card [icon]="stats.icon" [color]="stats.color" [title]="stats.title" [value]="stats.count"></app-stats-card>
         </mat-grid-tile>
       </ng-container>
     </mat-grid-list>
