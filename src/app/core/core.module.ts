@@ -7,6 +7,7 @@ import { SideNavbarComponent } from './components/side-navbar/side-navbar.compon
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { StudentModule } from '../features/student/student.module';
 @NgModule({
   declarations: [NavbarComponent, SideNavbarComponent],
   imports: [
@@ -16,6 +17,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSidenavModule,
     MatButtonModule,
     MatDividerModule,
+    StudentModule,
   ],
   exports: [NavbarComponent, SideNavbarComponent],
 })

@@ -5,6 +5,7 @@ import { AddCourseDialogComponent } from 'src/app/features/course/components/add
 import { CourseT } from 'src/app/features/course/interfaces/course.interface';
 import { CoursePageService } from './course-page.service';
 import { Subject, filter, switchMap, takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-course-page',
@@ -12,6 +13,7 @@ import { Subject, filter, switchMap, takeUntil } from 'rxjs';
   styleUrls: ['./course-page.component.scss'],
 })
 export class CoursePageComponent implements OnDestroy {
+  currentUserRole: string;
   public selectedRowCount = 0;
 
   public filters = ['Instructor', 'Course ID', 'Course Title'];
@@ -26,8 +28,10 @@ export class CoursePageComponent implements OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private coursePageService: CoursePageService
+    private coursePageService: CoursePageService,
+    private authService: AuthService
   ) {
+    this.currentUserRole = this.authService.currentUserValue.role;
     this.getAllCourses();
   }
 

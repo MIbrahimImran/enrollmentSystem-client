@@ -5,6 +5,7 @@ import { AddStudentDialogComponent } from 'src/app/features/student/components/a
 import { StudentT } from 'src/app/features/student/interfaces/student.interface';
 import { StudentPageService } from './student-page.service';
 import { Subject, filter, switchMap, takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-student-page',
@@ -12,6 +13,7 @@ import { Subject, filter, switchMap, takeUntil } from 'rxjs';
   styleUrls: ['./student-page.component.scss'],
 })
 export class StudentPageComponent implements OnDestroy {
+  currentUserRole: string;
   public selectedRowCount = 0;
 
   public filters = ['Student ID', 'Student Name'];
@@ -25,8 +27,10 @@ export class StudentPageComponent implements OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private studentPageService: StudentPageService
+    private studentPageService: StudentPageService,
+    private authService: AuthService
   ) {
+    this.currentUserRole = this.authService.currentUserValue.role;
     this.studentPageService
       .getAllStudents()
       .pipe(takeUntil(this.destroy$))
@@ -44,7 +48,7 @@ export class StudentPageComponent implements OnDestroy {
       { field: 'studentID', headerName: 'Student ID', width: 150 },
       { field: 'studentName', headerName: 'Student Name' },
       { field: 'major', headerName: 'Major' },
-      { field: 'email', headerName: 'Email' },
+      { field: 'email', headerName: 'Email', width: 300 },
       { field: 'password', headerName: 'Password' },
     ];
   }

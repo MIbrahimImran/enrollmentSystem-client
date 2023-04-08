@@ -5,6 +5,8 @@ import { AddEnrollmentDialogComponent } from 'src/app/features/enrollment/compon
 import { EnrollmentT } from 'src/app/features/enrollment/interfaces/enrollment.interface';
 import { EnrollmentPageService } from './enrollment-page.service';
 import { Subject, filter, switchMap, takeUntil } from 'rxjs';
+import { CourseT } from 'src/app/features/course/interfaces/course.interface';
+import { CoursePageService } from '../course-page/course-page.service';
 
 @Component({
   selector: 'app-enrollment-page',
@@ -22,11 +24,14 @@ export class EnrollmentPageComponent implements OnDestroy {
   public columnDefs: ColDef[] = this.getColumnDefs();
   public defaultColDef: ColDef = this.getDefaultColDef();
 
+  public courses: CourseT[] = [];
+
   private destroy$ = new Subject<void>();
 
   constructor(
     public dialog: MatDialog,
-    private enrollmentPageService: EnrollmentPageService
+    private enrollmentPageService: EnrollmentPageService,
+    private coursePageService: CoursePageService
   ) {
     this.enrollmentPageService
       .getAllEnrollments()
