@@ -1,6 +1,11 @@
 <app-side-navbar>
     <app-navbar></app-navbar>
-    <ng-container *ngFor="let stats of statistics" >
-        <app-stats-card color="primary" [title]="stats.title" [value]="stats.value"></app-stats-card>
-    </ng-container>
-</app-side-navbar>
+    <mat-grid-list cols="3" rowHeight="1:1" gutterSize="16px">
+      <ng-container *ngFor="let stats of statistics">
+        <mat-grid-tile>
+          <app-stats-card [icon]="stats.icon" [color]="stats.color" [title]="stats.title" [value]="stats.count"></app-stats-card>
+        </mat-grid-tile>
+      </ng-container>
+    </mat-grid-list>
+  </app-side-navbar>
+  

@@ -79,10 +79,9 @@ export class CoursePageComponent implements OnDestroy {
             this.rowData = this.rowData.filter(
               (courseItem) => courseItem.courseID !== course.courseID
             );
+            this.gridApi?.deselectAll();
           });
       });
-
-      this.updateSelectedRowCount();
     }
   }
 
@@ -94,7 +93,6 @@ export class CoursePageComponent implements OnDestroy {
 
   onSearchQuery(query: any): void {
     if (query) {
-      console.log(query);
       switch (query.filter) {
         case 'Instructor':
           this.getCoursesByInstructor(query.input);
@@ -144,7 +142,11 @@ export class CoursePageComponent implements OnDestroy {
       .getCourseByID(courseID)
       .pipe(takeUntil(this.destroy$))
       .subscribe((course) => {
-        this.rowData = [course];
+        if (course !== null) {
+          this.rowData = [course];
+        } else {
+          this.rowData = [];
+        }
       });
   }
 

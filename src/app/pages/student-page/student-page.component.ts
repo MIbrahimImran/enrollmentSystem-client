@@ -20,7 +20,7 @@ export class StudentPageComponent implements OnDestroy {
 
   private gridApi: GridApi | undefined;
   public rowData: StudentT[] = [];
-  public columnDefs: ColDef[] = this.getColumnDefs();
+  public columnDefs: ColDef[];
   public defaultColDef: ColDef = this.getDefaultColDef();
 
   private destroy$ = new Subject<void>();
@@ -35,8 +35,14 @@ export class StudentPageComponent implements OnDestroy {
       .getAllStudents()
       .pipe(takeUntil(this.destroy$))
       .subscribe((students) => {
+        students = students.filter(
+          (student) =>
+            student.studentID !== this.authService.currentUserValue.studentID
+        );
         this.rowData = students;
       });
+
+    this.columnDefs = this.getColumnDefs();
   }
 
   onGridReady(params: any): void {
@@ -44,13 +50,18 @@ export class StudentPageComponent implements OnDestroy {
   }
 
   getColumnDefs(): ColDef[] {
-    return [
+    const columnDefs: ColDef[] = [
       { field: 'studentID', headerName: 'Student ID', width: 150 },
       { field: 'studentName', headerName: 'Student Name' },
       { field: 'major', headerName: 'Major' },
       { field: 'email', headerName: 'Email', width: 300 },
-      { field: 'password', headerName: 'Password' },
     ];
+
+    if (this.currentUserRole === 'registrar') {
+      columnDefs.push({ field: 'password', headerName: 'Password' });
+    }
+
+    return columnDefs;
   }
 
   getDefaultColDef(): ColDef {
@@ -83,9 +94,9 @@ export class StudentPageComponent implements OnDestroy {
             this.rowData = this.rowData.filter(
               (s) => s.studentID !== student.studentID
             );
+            this.gridApi?.deselectAll();
           });
       });
-      this.updateSelectedRowCount();
     }
   }
 
@@ -97,7 +108,6 @@ export class StudentPageComponent implements OnDestroy {
 
   onSearchQuery(query: any): void {
     if (query) {
-      console.log(query);
       switch (query.filter) {
         case 'Student ID':
           this.getStudentByID(query.input);
@@ -126,7 +136,11 @@ export class StudentPageComponent implements OnDestroy {
       .getStudentByID(studentID)
       .pipe(takeUntil(this.destroy$))
       .subscribe((student) => {
-        this.rowData = [student];
+        if (student.length === 1) {
+          this.rowData = student;
+        } else {
+          this.rowData = [];
+        }
       });
   }
 

@@ -19,7 +19,6 @@ export class SchedulePageComponent {
     private readonly authService: AuthService
   ) {
     const currentUser = this.authService.currentUserValue;
-    console.log(this.authService.currentUserValue);
     this.enrollmentService
       .getEnrollmentsByStudentID(currentUser.studentID)
       .subscribe((enrollments) => {

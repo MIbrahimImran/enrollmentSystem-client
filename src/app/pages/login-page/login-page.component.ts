@@ -29,7 +29,6 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       const { studentID, password } = this.loginForm.value;
       this.authService.login(studentID, password).subscribe((user) => {
-        console.log(user);
         if (user) {
           this.openSnackBar('Login successful', 'Close');
 

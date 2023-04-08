@@ -3,11 +3,17 @@
     <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()" class="dialog__form">
         <mat-form-field appearance="outline" class="dialog__form__field">
             <mat-label>Student ID</mat-label>
-            <input matInput placeholder="Student ID" formControlName="studentID">
+            <input matInput placeholder="Student ID" formControlName="studentID" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let student of filteredStudents | async" [value]="student.studentID">
+                    {{ student.studentID }} - {{ student.studentName }}
+                </mat-option>
+            </mat-autocomplete>
             <mat-error *ngIf="enrollmentForm.controls['studentID'].hasError('required')">
                 Student ID is <strong>required</strong>
             </mat-error>
         </mat-form-field>
+        
         <mat-form-field appearance="outline" class="dialog__form__field">
             <mat-label>Course</mat-label>
             <mat-select matInput placeholder="Course ID" formControlName="courseID">

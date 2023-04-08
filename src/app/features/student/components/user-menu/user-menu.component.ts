@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./user-menu.component.scss'],
 })
 export class UserMenuComponent {
-  userName = 'John Doe';
+  userName = '';
 
   constructor(
     private readonly authService: AuthService,
