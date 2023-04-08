@@ -23,6 +23,10 @@ export class StudentPageService {
     return this.http.get<StudentT[]>(`${this.apiUrl}/name/${studentName}`);
   }
 
+  getStudentCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/count`);
+  }
+
   createStudent(student: StudentT): Observable<StudentT> {
     return this.http.post<StudentT>(`${this.apiUrl}`, student);
   }
