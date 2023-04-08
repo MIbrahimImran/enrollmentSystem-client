@@ -5,27 +5,48 @@ import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.co
 import { CoursePageComponent } from './pages/course-page/course-page.component';
 import { StudentPageComponent } from './pages/student-page/student-page.component';
 import { EnrollmentPageComponent } from './pages/enrollment-page/enrollment-page.component';
+import { AuthGuard } from './auth/auth.guard';
+import { SchedulePageComponent } from './pages/schedule-page/schedule-page.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'login',
     component: LoginPageComponent,
   },
   {
     path: 'dashboard',
     component: DashboardPageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['registrar', 'advisor'] },
   },
   {
     path: 'course',
     component: CoursePageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['registrar', 'advisor'] },
   },
   {
     path: 'student',
     component: StudentPageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['registrar', 'advisor'] },
   },
   {
     path: 'enrollment',
     component: EnrollmentPageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['registrar', 'advisor'] },
+  },
+  {
+    path: 'schedule',
+    component: SchedulePageComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['student'] },
+  },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
   },
 ];
 

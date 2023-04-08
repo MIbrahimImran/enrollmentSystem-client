@@ -10,6 +10,7 @@ import { CoursePageModule } from './pages/course-page/course-page.module';
 import { StudentPageModule } from './pages/student-page/student-page.module';
 import { EnrollmentPageModule } from './pages/enrollment-page/enrollment-page.module';
 import { HttpClientModule } from '@angular/common/http';
+import { SchedulePageModule } from './pages/schedule-page/schedule-page.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     CoursePageModule,
     StudentPageModule,
     EnrollmentPageModule,
+    SchedulePageModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

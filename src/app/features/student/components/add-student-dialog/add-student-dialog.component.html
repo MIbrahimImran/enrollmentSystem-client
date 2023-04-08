@@ -16,6 +16,7 @@
             <mat-option value="Math">Math</mat-option>
             <mat-option value="Computer Science">Computer Science</mat-option>
             <mat-option value="Chemistry">Chemistry</mat-option>
+            <mat-option value="None">None</mat-option>
           </mat-select>
           <mat-error *ngIf="studentForm.controls['major'].hasError('required')">
             Major is <strong>required</strong>
@@ -26,7 +27,7 @@
             <mat-select formControlName="role">
               <mat-option value="student">Student</mat-option>
               <mat-option value="advisor">Advisor</mat-option>
-              <mat-option value="admin">Registrar</mat-option>
+              <mat-option value="registrar">Registrar</mat-option>
             </mat-select>
             <mat-error *ngIf="studentForm.controls['role'].hasError('required')">
               Role is <strong>required</strong>

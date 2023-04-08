@@ -8,9 +8,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
-  declarations: [AddStudentDialogComponent],
+  declarations: [AddStudentDialogComponent, UserMenuComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -21,7 +24,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatDividerModule,
     MatSelectModule,
+    MatIconModule,
+    MatMenuModule,
   ],
-  exports: [AddStudentDialogComponent],
+  exports: [AddStudentDialogComponent, UserMenuComponent],
 })
 export class StudentModule {}

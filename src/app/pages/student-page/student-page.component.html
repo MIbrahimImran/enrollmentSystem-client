@@ -5,7 +5,7 @@
                             lass="course__filter"
                             (query)="onSearchQuery($event)">
         </app-search-filter>
-        <div class="student__button">
+        <div *ngIf="currentUserRole === 'registrar'" class="student__button">
             <button *ngIf="selectedRowCount > 0" 
                     mat-raised-button 
                     class="student__button__delete" 

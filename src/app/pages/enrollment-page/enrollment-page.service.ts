@@ -25,6 +25,12 @@ export class EnrollmentPageService {
     );
   }
 
+  getEnrollmentsByStudentID(studentID: string): Observable<EnrollmentT[]> {
+    return this.http.get<EnrollmentT[]>(
+      `${this.apiUrl}/studentID/${studentID}`
+    );
+  }
+
   getEnrollmentsByCourseID(courseID: string): Observable<EnrollmentT[]> {
     return this.http.get<EnrollmentT[]>(`${this.apiUrl}/course/${courseID}`);
   }
