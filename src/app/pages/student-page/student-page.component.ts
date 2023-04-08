@@ -6,6 +6,8 @@ import { StudentT } from 'src/app/features/student/interfaces/student.interface'
 import { StudentPageService } from './student-page.service';
 import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { EditStudentDialogComponent } from 'src/app/features/student/components/edit-student-dialog/edit-student-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-page',
@@ -28,7 +30,8 @@ export class StudentPageComponent implements OnDestroy {
   constructor(
     public dialog: MatDialog,
     private studentPageService: StudentPageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {
     this.currentUserRole = this.authService.currentUserValue.role;
     this.studentPageService
@@ -66,6 +69,35 @@ export class StudentPageComponent implements OnDestroy {
 
   getDefaultColDef(): ColDef {
     return { sortable: true, resizable: true, editable: true };
+  }
+
+  editStudent(): void {
+    const selectedNodes = this.gridApi?.getSelectedNodes();
+    if (selectedNodes) {
+      if (selectedNodes.length > 1) {
+        this.openSnackBar('Please select only one student to edit.', 'Close');
+        return;
+      }
+
+      const selectedData = selectedNodes.map((node) => node.data);
+
+      const dialogRef = this.dialog.open(EditStudentDialogComponent, {
+        data: selectedData[0],
+      });
+
+      dialogRef
+        .afterClosed()
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((student) => !!student),
+          switchMap((student) => this.studentPageService.updateStudent(student))
+        )
+        .subscribe((student) => {
+          this.rowData = this.rowData.map((s) =>
+            s.studentID === student.studentID ? student : s
+          );
+        });
+    }
   }
 
   openAddStudentDialog(): void {
@@ -151,6 +183,14 @@ export class StudentPageComponent implements OnDestroy {
       .subscribe((students) => {
         this.rowData = students;
       });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
   }
 
   ngOnDestroy(): void {

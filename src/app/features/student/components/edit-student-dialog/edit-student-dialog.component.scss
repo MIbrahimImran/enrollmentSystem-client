@@ -1,0 +1,11 @@
+.dialog {
+    &__form {
+        display: flex;
+        flex-direction: column;
+        
+        &__field {
+            width: 336px;
+            margin-top: 12px;
+        }
+    }
+}

@@ -8,9 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
+import { EditCourseDialogComponent } from './components/edit-course-dialog/edit-course-dialog.component';
 
 @NgModule({
-  declarations: [AddCourseDialogComponent],
+  declarations: [AddCourseDialogComponent, EditCourseDialogComponent],
   imports: [
     CommonModule,
     MatButtonModule,

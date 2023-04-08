@@ -7,7 +7,7 @@ import { CourseModule } from 'src/app/features/course/course.module';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [CoursePageComponent],
   imports: [
@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     AgGridModule,
     MatIconModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
 })
 export class CoursePageModule {}

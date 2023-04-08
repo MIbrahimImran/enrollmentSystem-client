@@ -27,6 +27,10 @@ export class StudentPageService {
     return this.http.get<number>(`${this.apiUrl}/count`);
   }
 
+  updateStudent(student: StudentT): Observable<StudentT> {
+    return this.http.put<StudentT>(`${this.apiUrl}/update`, student);
+  }
+
   createStudent(student: StudentT): Observable<StudentT> {
     return this.http.post<StudentT>(`${this.apiUrl}`, student);
   }
