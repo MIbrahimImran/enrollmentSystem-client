@@ -1,5 +1,8 @@
 <app-side-navbar>
     <app-navbar></app-navbar>
+    <div class="export-csv">
+        <button mat-stroked-button (click)="onBtnExportData()" color="primary">Export to CSV</button>
+    </div>
     <ag-grid-angular
     style="width: 100%; height: 100%;"
     class="ag-theme-alpine"
@@ -7,5 +10,6 @@
     [columnDefs]="columnDefs"
     [rowSelection]="'multiple'"
     [defaultColDef]="defaultColDef"
+    (gridReady)="onGridReady($event)"
     ></ag-grid-angular>
 </app-side-navbar>
