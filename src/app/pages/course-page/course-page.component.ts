@@ -18,7 +18,12 @@ export class CoursePageComponent implements OnDestroy {
   currentUserRole: string;
   public selectedRowCount = 0;
 
-  public filters = ['Instructor', 'Course ID', 'Course Title'];
+  public filters = [
+    'Instructor',
+    'Course ID',
+    'Course Title',
+    'Top N by Enrollments',
+  ];
 
   private gridApi: GridApi | undefined;
 
@@ -136,6 +141,9 @@ export class CoursePageComponent implements OnDestroy {
         case 'Course Title':
           this.getCoursesByTitle(query.input);
           break;
+        case 'Top N by Enrollments':
+          this.getTopNCoursesByEnrollment(query.input);
+          break;
         default:
           this.getAllCourses();
           break;
@@ -183,6 +191,21 @@ export class CoursePageComponent implements OnDestroy {
       });
   }
 
+  getTopNCoursesByEnrollment(n: string): void {
+    const parsedN = parseInt(n, 10);
+
+    if (isNaN(parsedN) || parsedN <= 0 || !Number.isInteger(parsedN)) {
+      this.openSnackBar('Please enter a positive integer.', 'Close');
+      return;
+    }
+
+    this.coursePageService
+      .getTopNCoursesByEnrollment(parsedN)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((courses) => {
+        this.rowData = courses;
+      });
+  }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 1000,
