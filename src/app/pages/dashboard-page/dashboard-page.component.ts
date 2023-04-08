@@ -23,15 +23,15 @@ export class DashboardPageComponent implements OnDestroy {
     private coursePageService: CoursePageService
   ) {
     forkJoin({
-      enrollments: this.enrollmentPageService.getAllEnrollments(),
-      students: this.studentPageService.getAllStudents(),
-      courses: this.coursePageService.getAllCourses(),
+      enrollments: this.enrollmentPageService.getEnrollmentCount(),
+      students: this.studentPageService.getStudentCount(),
+      courses: this.coursePageService.getCourseCount(),
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ enrollments, students, courses }) => {
-        this.enrollmentCount = enrollments.length;
-        this.studentCount = students.length;
-        this.courseCount = courses.length;
+        this.enrollmentCount = enrollments;
+        this.studentCount = students;
+        this.courseCount = courses;
         this.updateStatistics();
       });
   }

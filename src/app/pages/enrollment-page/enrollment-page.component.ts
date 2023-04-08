@@ -79,7 +79,6 @@ export class EnrollmentPageComponent implements OnDestroy {
       )
       .subscribe((enrollment) => {
         this.rowData = [enrollment, ...this.rowData];
-        console.log(this.rowData);
       });
   }
 

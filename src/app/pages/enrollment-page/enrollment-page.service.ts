@@ -35,6 +35,10 @@ export class EnrollmentPageService {
     return this.http.get<EnrollmentT[]>(`${this.apiUrl}/course/${courseID}`);
   }
 
+  getEnrollmentCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/count`);
+  }
+
   createEnrollment(enrollment: EnrollmentT): Observable<EnrollmentT> {
     return this.http.post<EnrollmentT>(`${this.apiUrl}`, enrollment);
   }
