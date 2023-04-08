@@ -11,9 +11,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { EditStudentDialogComponent } from './components/edit-student-dialog/edit-student-dialog.component';
 
 @NgModule({
-  declarations: [AddStudentDialogComponent, UserMenuComponent],
+  declarations: [AddStudentDialogComponent, UserMenuComponent, EditStudentDialogComponent],
   imports: [
     CommonModule,
     MatButtonModule,

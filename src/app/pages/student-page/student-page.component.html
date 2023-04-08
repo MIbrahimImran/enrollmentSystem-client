@@ -7,13 +7,20 @@
         </app-search-filter>
         <div *ngIf="currentUserRole === 'registrar'" class="student__button">
             <button *ngIf="selectedRowCount > 0" 
-                    mat-raised-button 
+                    mat-stroked-button 
                     class="student__button__delete" 
                     color="warn"
                     (click)="deleteStudent()">
                     <mat-icon>delete</mat-icon>
                     Delete Selected Students ({{ selectedRowCount }})
             </button>
+            <button *ngIf="selectedRowCount > 0" 
+                mat-stroked-button 
+                class="student__button__delete" 
+                (click)="editStudent()">
+                <mat-icon>delete</mat-icon>
+                Edit Selected Students ({{ selectedRowCount }})
+        </button>
             <button mat-raised-button 
                     class="student__button__add" 
                     color="primary"

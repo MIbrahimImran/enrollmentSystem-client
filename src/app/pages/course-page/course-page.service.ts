@@ -31,6 +31,10 @@ export class CoursePageService {
     return this.http.get<number>(`${this.apiUrl}/count`);
   }
 
+  updateCourse(course: CourseT): Observable<CourseT> {
+    return this.http.put<CourseT>(`${this.apiUrl}/update`, course);
+  }
+
   createCourse(course: CourseT): Observable<CourseT> {
     return this.http.post<CourseT>(`${this.apiUrl}`, course);
   }

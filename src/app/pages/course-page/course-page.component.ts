@@ -6,6 +6,8 @@ import { CourseT } from 'src/app/features/course/interfaces/course.interface';
 import { CoursePageService } from './course-page.service';
 import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { EditCourseDialogComponent } from 'src/app/features/course/components/edit-course-dialog/edit-course-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-course-page',
@@ -29,7 +31,8 @@ export class CoursePageComponent implements OnDestroy {
   constructor(
     public dialog: MatDialog,
     private coursePageService: CoursePageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {
     this.currentUserRole = this.authService.currentUserValue.role;
     this.getAllCourses();
@@ -64,6 +67,36 @@ export class CoursePageComponent implements OnDestroy {
       .subscribe((course) => {
         this.rowData = [...this.rowData, course];
       });
+  }
+
+  editCourse(): void {
+    const selectedNodes = this.gridApi?.getSelectedNodes();
+    if (selectedNodes) {
+      if (selectedNodes.length > 1) {
+        this.openSnackBar('Please select only one course to edit.', 'Close');
+        return;
+      }
+
+      const selectedData = selectedNodes.map((node) => node.data);
+
+      const dialogRef = this.dialog.open(EditCourseDialogComponent, {
+        data: selectedData[0],
+      });
+
+      dialogRef
+        .afterClosed()
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((course) => !!course),
+          switchMap((course) => this.coursePageService.updateCourse(course))
+        )
+        .subscribe((course) => {
+          this.rowData = this.rowData.map((courseItem) =>
+            courseItem.courseID === course.courseID ? course : courseItem
+          );
+          this.gridApi?.deselectAll();
+        });
+    }
   }
 
   deleteCourses(): void {
@@ -148,6 +181,14 @@ export class CoursePageComponent implements OnDestroy {
           this.rowData = [];
         }
       });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
   }
 
   ngOnDestroy(): void {

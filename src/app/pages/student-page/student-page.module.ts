@@ -7,6 +7,7 @@ import { StudentModule } from 'src/app/features/student/student.module';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [StudentPageComponent],
@@ -18,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     StudentModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
 })
 export class StudentPageModule {}
