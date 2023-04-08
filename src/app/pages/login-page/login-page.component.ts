@@ -20,8 +20,8 @@ export class LoginPageComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      studentID: '',
-      password: '',
+      studentID: 'U13607305',
+      password: '6res8p0p',
     });
   }
 

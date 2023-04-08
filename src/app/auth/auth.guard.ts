@@ -28,6 +28,8 @@ export class AuthGuard implements CanActivate {
         requiredRoles.length > 0 &&
         !requiredRoles.includes(currentUser.role)
       ) {
+        // Unauthorized
+        this.router.navigate(['/login']);
         return false;
       }
 
