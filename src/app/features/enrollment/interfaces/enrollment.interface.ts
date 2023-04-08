@@ -1,7 +1,10 @@
 export interface EnrollmentT {
   enrollmentID: number;
-  studentID: string;
+  studentID: number;
   studentName: string;
+  studentEmail: string;
   courseID: string;
-  title: string;
+  courseTitle: string;
+  courseInstructor: string;
+  courseCredit: number;
 }

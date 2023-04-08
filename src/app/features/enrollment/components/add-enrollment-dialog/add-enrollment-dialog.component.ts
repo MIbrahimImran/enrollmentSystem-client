@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -16,11 +16,8 @@ export class AddEnrollmentDialogComponent {
     private formBuilder: FormBuilder
   ) {
     this.enrollmentForm = this.formBuilder.group({
-      studentID: '',
-      studentName: '',
-      courseID: '',
-      title: '',
-      enrollmentID: '',
+      studentID: ['', Validators.required],
+      courseID: ['', Validators.required],
     });
   }
 

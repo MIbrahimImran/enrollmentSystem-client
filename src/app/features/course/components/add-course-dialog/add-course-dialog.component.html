@@ -27,7 +27,7 @@
             <mat-label>Credits</mat-label>
             <input matInput placeholder="Credits" formControlName="credits">
             <mat-error *ngIf="courseForm.controls['credits'].hasError('required')">
-                Credits is <strong>required</strong>
+                Credits is <strong>required</strong> and should be a <strong>number</strong>
             </mat-error>
         </mat-form-field>
     </form>
