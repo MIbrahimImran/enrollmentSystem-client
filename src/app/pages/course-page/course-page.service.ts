@@ -31,6 +31,10 @@ export class CoursePageService {
     return this.http.get<number>(`${this.apiUrl}/count`);
   }
 
+  getTopNCoursesByEnrollment(n: number): Observable<CourseT[]> {
+    return this.http.get<CourseT[]>(`${this.apiUrl}/top-enrollments/${n}`);
+  }
+
   updateCourse(course: CourseT): Observable<CourseT> {
     return this.http.put<CourseT>(`${this.apiUrl}/update`, course);
   }
