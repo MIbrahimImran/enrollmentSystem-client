@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-community';
 import { EnrollmentPageService } from '../enrollment-page/enrollment-page.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EnrollmentT } from 'src/app/features/enrollment/interfaces/enrollment.interface';
@@ -10,6 +10,8 @@ import { EnrollmentT } from 'src/app/features/enrollment/interfaces/enrollment.i
   styleUrls: ['./schedule-page.component.scss'],
 })
 export class SchedulePageComponent {
+  private gridApi: GridApi | undefined;
+
   public rowData: EnrollmentT[] = [];
   public columnDefs: ColDef[] = this.getColumnDefs();
   public defaultColDef: ColDef = this.getDefaultColDef();
@@ -24,6 +26,10 @@ export class SchedulePageComponent {
       .subscribe((enrollments) => {
         this.rowData = enrollments;
       });
+  }
+
+  onGridReady(params: any): void {
+    this.gridApi = params.api;
   }
 
   getColumnDefs(): ColDef[] {
@@ -42,5 +48,9 @@ export class SchedulePageComponent {
 
   getDefaultColDef(): ColDef {
     return { sortable: true, resizable: true };
+  }
+
+  onBtnExportData(): void {
+    this.gridApi?.exportDataAsCsv();
   }
 }

@@ -61,7 +61,10 @@ export class StudentPageComponent implements OnDestroy {
     ];
 
     if (this.currentUserRole === 'registrar') {
-      columnDefs.push({ field: 'password', headerName: 'Password' });
+      columnDefs.push(
+        { field: 'password', headerName: 'Password' },
+        { field: 'role', headerName: 'Role' }
+      );
     }
 
     return columnDefs;
