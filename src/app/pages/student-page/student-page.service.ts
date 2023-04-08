@@ -15,8 +15,8 @@ export class StudentPageService {
     return this.http.get<StudentT[]>(`${this.apiUrl}`);
   }
 
-  getStudentByID(studentID: string): Observable<StudentT> {
-    return this.http.get<StudentT>(`${this.apiUrl}/${studentID}`);
+  getStudentByID(studentID: string): Observable<StudentT[]> {
+    return this.http.get<StudentT[]>(`${this.apiUrl}/${studentID}`);
   }
 
   getStudentsByName(studentName: string): Observable<StudentT[]> {

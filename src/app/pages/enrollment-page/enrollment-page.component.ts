@@ -78,7 +78,8 @@ export class EnrollmentPageComponent implements OnDestroy {
         )
       )
       .subscribe((enrollment) => {
-        this.rowData = [...this.rowData, enrollment];
+        this.rowData = [enrollment, ...this.rowData];
+        console.log(this.rowData);
       });
   }
 
@@ -94,9 +95,9 @@ export class EnrollmentPageComponent implements OnDestroy {
             this.rowData = this.rowData.filter(
               (e) => e.enrollmentID !== enrollment.enrollmentID
             );
+            this.gridApi?.deselectAll();
           });
       });
-      this.updateSelectedRowCount();
     }
   }
 
@@ -108,16 +109,15 @@ export class EnrollmentPageComponent implements OnDestroy {
 
   onSearchQuery(query: any): void {
     if (query) {
-      console.log(query);
       switch (query.filter) {
         case 'Student Name':
           this.getEnrollmentsByStudentName(query.input);
           break;
         case 'Enrollment ID':
-          this.getEnrollmentByID(query.value);
+          this.getEnrollmentByID(query.input);
           break;
         case 'Course ID':
-          this.getEnrollmentsByCourseID(query.value);
+          this.getEnrollmentsByCourseID(query.input);
           break;
         default:
           this.getAllEnrollments();
@@ -140,7 +140,11 @@ export class EnrollmentPageComponent implements OnDestroy {
       .getEnrollmentByID(enrollmentID)
       .pipe(takeUntil(this.destroy$))
       .subscribe((enrollment) => {
-        this.rowData = [enrollment];
+        if (enrollment !== null) {
+          this.rowData = [enrollment];
+        } else {
+          this.rowData = [];
+        }
       });
   }
 
