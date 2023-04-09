@@ -7,7 +7,7 @@ import { CourseT } from 'src/app/features/course/interfaces/course.interface';
   providedIn: 'root',
 })
 export class CoursePageService {
-  private apiUrl = 'http://enrollserver.ibrahimimran.com/courses';
+  private apiUrl = 'https://enrollserver.ibrahimimran.com/courses';
 
   constructor(private http: HttpClient) {}
 
