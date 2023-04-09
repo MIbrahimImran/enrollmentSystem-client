@@ -5,29 +5,45 @@
                             lass="course__filter"
                             (query)="onSearchQuery($event)">
         </app-search-filter>
-        <div *ngIf="currentUserRole === 'registrar'" class="course__button">
-            <button *ngIf="selectedRowCount > 0" 
-                mat-stroked-button  
-                class="course__button__delete" 
-                color="warn"
-                (click)="deleteCourses()">
-                <mat-icon>delete</mat-icon>
-                Delete Selected Courses ({{ selectedRowCount }})
-            </button>
-            <button *ngIf="selectedRowCount > 0" 
-                mat-stroked-button 
-                class="course__button__delete" 
-                (click)="editCourse()">
-                <mat-icon>delete</mat-icon>
-                Edit Selected Courses ({{ selectedRowCount }})
-            </button>
-            <button mat-raised-button 
-                    class="course__button__add" 
-                    color="primary"
-                    (click)="openAddCourseDialog()">
-                    <mat-icon>add</mat-icon>
-                    Add Course
-            </button>
+        <div *ngIf="currentUserRole === 'registrar'" class="course__options">
+            <div class="course__options__extended">
+                <button *ngIf="true" mat-stroked-button [matMenuTriggerFor]="userAccountMenu">
+                    <mat-icon>settings</mat-icon> Options
+                </button> 
+                
+                <mat-menu #userAccountMenu="matMenu">
+                    <button mat-menu-item color="warn" (click)="onUploadCsv()">
+                        <mat-icon>upload_file</mat-icon> Upload Csv
+                    </button> 
+                    <button mat-menu-item color="warn" (click)="onDownloadCsv()">
+                        <mat-icon>download</mat-icon> Download Csv
+                    </button>
+                </mat-menu>
+            </div>
+            <div class="course__options__action">
+                <button *ngIf="selectedRowCount > 0" 
+                    mat-stroked-button  
+                    class="course__options__action--delete" 
+                    color="warn"
+                    (click)="deleteCourses()">
+                    <mat-icon>delete</mat-icon>
+                    Delete Selected Courses ({{ selectedRowCount }})
+                </button>
+                <button *ngIf="selectedRowCount > 0" 
+                    mat-stroked-button 
+                    class="course__options__action--edit" 
+                    (click)="editCourse()">
+                    <mat-icon>edit</mat-icon>
+                    Edit Selected Courses ({{ selectedRowCount }})
+                </button>
+                <button mat-raised-button 
+                        class="course__options__action--add" 
+                        color="primary"
+                        (click)="openAddCourseDialog()">
+                        <mat-icon>add</mat-icon>
+                        Add Course
+                </button>
+            </div>
         </div>
     </div>
     <ag-grid-angular

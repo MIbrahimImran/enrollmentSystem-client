@@ -8,6 +8,7 @@ import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EditCourseDialogComponent } from 'src/app/features/course/components/edit-course-dialog/edit-course-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-course-page',
@@ -206,6 +207,101 @@ export class CoursePageComponent implements OnDestroy {
         this.rowData = courses;
       });
   }
+
+  onDownloadCsv(): void {
+    const columnKeys = this.columnDefs
+      .map((colDef) => colDef.field)
+      .filter((field): field is string => !!field);
+
+    this.gridApi?.exportDataAsCsv({
+      columnKeys,
+      processHeaderCallback: (params) => {
+        const fieldName = params.column.getColDef().field;
+        return fieldName ? fieldName : '';
+      },
+    });
+  }
+
+  async onUploadCsv(): Promise<void> {
+    try {
+      const [fileHandle] = await (window as any).showOpenFilePicker({
+        types: [
+          {
+            description: 'CSV Files',
+            accept: {
+              'text/csv': ['.csv'],
+            },
+          },
+        ],
+      });
+      const file = await fileHandle.getFile();
+      this.readCsv(file);
+    } catch (error) {
+      this.openSnackBar('Error while reading file.', 'Close');
+    }
+  }
+
+  private readCsv(file: File): void {
+    const reader = new FileReader();
+    reader.readAsText(file);
+
+    reader.onload = () => {
+      const csvData = reader.result as string;
+      this.processCsvData(csvData);
+    };
+
+    reader.onerror = (error) => {
+      this.openSnackBar('Error while reading file.', 'Close');
+    };
+  }
+
+  private processCsvData(csvData: string): void {
+    Papa.parse(csvData, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        if (results.errors.length > 0) {
+          console.error('CSV parsing errors:', results.errors);
+          return;
+        }
+
+        const courses: CourseT[] = results.data.map((row: any) => {
+          return {
+            courseID: row.courseID,
+            title: row.title,
+            instructor: row.instructor,
+            credits: parseInt(row.credits, 10),
+          };
+        });
+
+        courses.forEach((course) => {
+          this.validateCourse(course) &&
+            this.coursePageService.createCourse(course).subscribe((course) => {
+              this.rowData = [...this.rowData, course];
+            });
+        });
+      },
+    });
+  }
+
+  private validateCourse(course: CourseT): boolean {
+    console.log(course);
+    const { courseID, title, instructor, credits } = course;
+
+    if (
+      !courseID ||
+      !title ||
+      !instructor ||
+      !Number.isInteger(credits) ||
+      credits < 0
+    ) {
+      this.openSnackBar('Invalid course data.', 'Close');
+      return false;
+    }
+
+    return true;
+  }
+
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 1000,
