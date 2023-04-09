@@ -7,7 +7,7 @@ import { EnrollmentT } from 'src/app/features/enrollment/interfaces/enrollment.i
   providedIn: 'root',
 })
 export class EnrollmentPageService {
-  private apiUrl = 'http://localhost:3000/enrollments';
+  private apiUrl = 'http://enrollserver.ibrahimimran.com/enrollments';
 
   constructor(private http: HttpClient) {}
 
