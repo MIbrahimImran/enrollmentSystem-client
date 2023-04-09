@@ -4,9 +4,23 @@
     align-items: end;
     margin: 12px;
 
-    &__button {
-        &__delete {
-            margin-right: 8px;
+    &__options {
+        
+        &__extended {
+            display: flex;
+            justify-content: end;
+            align-items: end;
+            margin-bottom: 12px;
+        }
+
+        &__action {
+            &--edit {
+                margin-right: 12px;
+            }
+
+            &--delete {
+                margin-right: 12px;
+            }
         }
     }
 }
