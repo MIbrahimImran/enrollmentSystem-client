@@ -7,7 +7,7 @@ import { StudentT } from 'src/app/features/student/interfaces/student.interface'
   providedIn: 'root',
 })
 export class StudentPageService {
-  private apiUrl = 'http://enrollserver.ibrahimimran.com/students';
+  private apiUrl = 'https://enrollserver.ibrahimimran.com/students';
 
   constructor(private http: HttpClient) {}
 
