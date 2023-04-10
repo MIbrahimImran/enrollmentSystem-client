@@ -7,6 +7,7 @@ import { EnrollmentModule } from 'src/app/features/enrollment/enrollment.module'
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [EnrollmentPageComponent],
@@ -18,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     EnrollmentModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
 })
 export class EnrollmentPageModule {}

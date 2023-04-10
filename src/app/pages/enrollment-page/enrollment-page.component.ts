@@ -7,6 +7,7 @@ import { EnrollmentPageService } from './enrollment-page.service';
 import { Subject, filter, switchMap, takeUntil } from 'rxjs';
 import { CourseT } from 'src/app/features/course/interfaces/course.interface';
 import { CoursePageService } from '../course-page/course-page.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-enrollment-page',
@@ -31,7 +32,7 @@ export class EnrollmentPageComponent implements OnDestroy {
   constructor(
     public dialog: MatDialog,
     private enrollmentPageService: EnrollmentPageService,
-    private coursePageService: CoursePageService
+    private _snackBar: MatSnackBar
   ) {
     this.enrollmentPageService
       .getAllEnrollments()
@@ -79,6 +80,7 @@ export class EnrollmentPageComponent implements OnDestroy {
       )
       .subscribe((enrollment) => {
         this.rowData = [enrollment, ...this.rowData];
+        this.openSnackBar('Enrollment added', 'Close');
       });
   }
 
@@ -95,6 +97,8 @@ export class EnrollmentPageComponent implements OnDestroy {
               (e) => e.enrollmentID !== enrollment.enrollmentID
             );
             this.gridApi?.deselectAll();
+
+            this.openSnackBar('Enrollment deleted', 'Close');
           });
       });
     }
@@ -131,6 +135,10 @@ export class EnrollmentPageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((enrollments) => {
         this.rowData = enrollments;
+
+        if (!enrollments.length) {
+          this.openSnackBar('No enrollments found', 'Close');
+        }
       });
   }
 
@@ -144,6 +152,10 @@ export class EnrollmentPageComponent implements OnDestroy {
         } else {
           this.rowData = [];
         }
+
+        if (!enrollment) {
+          this.openSnackBar('No enrollment found', 'Close');
+        }
       });
   }
 
@@ -153,6 +165,10 @@ export class EnrollmentPageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((enrollments) => {
         this.rowData = enrollments;
+
+        if (!enrollments.length) {
+          this.openSnackBar('No enrollments found', 'Close');
+        }
       });
   }
 
@@ -162,7 +178,19 @@ export class EnrollmentPageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((enrollments) => {
         this.rowData = enrollments;
+
+        if (!enrollments.length) {
+          this.openSnackBar('No enrollments found', 'Close');
+        }
       });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
   }
 
   ngOnDestroy(): void {

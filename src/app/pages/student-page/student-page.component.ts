@@ -99,6 +99,8 @@ export class StudentPageComponent implements OnDestroy {
           this.rowData = this.rowData.map((s) =>
             s.studentID === student.studentID ? student : s
           );
+
+          this.openSnackBar('Student updated successfully.', 'Close');
         });
     }
   }
@@ -114,6 +116,7 @@ export class StudentPageComponent implements OnDestroy {
       )
       .subscribe((student) => {
         this.rowData = [...this.rowData, student];
+        this.openSnackBar(`${student.role} added successfully.`, 'Close');
       });
   }
 
@@ -130,6 +133,7 @@ export class StudentPageComponent implements OnDestroy {
               (s) => s.studentID !== student.studentID
             );
             this.gridApi?.deselectAll();
+            this.openSnackBar(`${student.role} deleted successfully.`, 'Close');
           });
       });
     }
@@ -162,7 +166,15 @@ export class StudentPageComponent implements OnDestroy {
       .getAllStudents()
       .pipe(takeUntil(this.destroy$))
       .subscribe((students) => {
+        students = students.filter(
+          (student) =>
+            student.studentID !== this.authService.currentUserValue.studentID
+        );
         this.rowData = students;
+
+        if (!students.length) {
+          this.openSnackBar('No students found.', 'Close');
+        }
       });
   }
 
@@ -176,6 +188,10 @@ export class StudentPageComponent implements OnDestroy {
         } else {
           this.rowData = [];
         }
+
+        if (!student.length) {
+          this.openSnackBar('No students found.', 'Close');
+        }
       });
   }
 
@@ -185,6 +201,10 @@ export class StudentPageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((students) => {
         this.rowData = students;
+
+        if (!students.length) {
+          this.openSnackBar('No students found.', 'Close');
+        }
       });
   }
 
