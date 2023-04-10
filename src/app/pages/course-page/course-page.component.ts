@@ -4,11 +4,12 @@ import { ColDef, GridApi } from 'ag-grid-community';
 import { AddCourseDialogComponent } from 'src/app/features/course/components/add-course-dialog/add-course-dialog.component';
 import { CourseT } from 'src/app/features/course/interfaces/course.interface';
 import { CoursePageService } from './course-page.service';
-import { Subject, filter, switchMap, takeUntil } from 'rxjs';
+import { Subject, catchError, filter, switchMap, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EditCourseDialogComponent } from 'src/app/features/course/components/edit-course-dialog/edit-course-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Papa from 'papaparse';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-course-page',
@@ -68,10 +69,15 @@ export class CoursePageComponent implements OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter((course) => !!course),
-        switchMap((course) => this.coursePageService.createCourse(course))
+        switchMap((course) => this.coursePageService.createCourse(course)),
+        catchError((response: HttpErrorResponse) => {
+          this.openSnackBar(`${response.error.message}.`, 'Close');
+          return [];
+        })
       )
       .subscribe((course) => {
         this.rowData = [...this.rowData, course];
+        this.openSnackBar('Course added successfully!', 'Close');
       });
   }
 
@@ -119,6 +125,7 @@ export class CoursePageComponent implements OnDestroy {
               (courseItem) => courseItem.courseID !== course.courseID
             );
             this.gridApi?.deselectAll();
+            this.openSnackBar('Course deleted successfully!', 'Close');
           });
       });
     }
@@ -158,6 +165,9 @@ export class CoursePageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((courses) => {
         this.rowData = courses;
+        if (!courses.length) {
+          this.openSnackBar('No courses found.', 'Close');
+        }
       });
   }
 
@@ -167,6 +177,9 @@ export class CoursePageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((courses) => {
         this.rowData = courses;
+        if (!courses.length) {
+          this.openSnackBar('No courses found.', 'Close');
+        }
       });
   }
 
@@ -176,6 +189,9 @@ export class CoursePageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((courses) => {
         this.rowData = courses;
+        if (!courses.length) {
+          this.openSnackBar('No courses found.', 'Close');
+        }
       });
   }
 
@@ -188,6 +204,10 @@ export class CoursePageComponent implements OnDestroy {
           this.rowData = [course];
         } else {
           this.rowData = [];
+        }
+
+        if (!this.rowData.length) {
+          this.openSnackBar('No courses found.', 'Close');
         }
       });
   }
@@ -205,6 +225,9 @@ export class CoursePageComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((courses) => {
         this.rowData = courses;
+        if (!courses.length) {
+          this.openSnackBar('No courses found.', 'Close');
+        }
       });
   }
 
@@ -220,6 +243,8 @@ export class CoursePageComponent implements OnDestroy {
         return fieldName ? fieldName : '';
       },
     });
+
+    this.openSnackBar('CSV downloaded successfully!', 'Close');
   }
 
   async onUploadCsv(): Promise<void> {
@@ -282,6 +307,8 @@ export class CoursePageComponent implements OnDestroy {
         });
       },
     });
+
+    this.openSnackBar('CSV uploaded successfully!', 'Close');
   }
 
   private validateCourse(course: CourseT): boolean {
